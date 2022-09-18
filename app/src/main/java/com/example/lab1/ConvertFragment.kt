@@ -148,7 +148,19 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
     }
 
     override fun onClick(view: View?) {
-        TODO("реализовать перекидываение выбранных значений")
-
+        var buf1: String = ""
+        var buf2: String = ""
+        for(i in 0..2){
+            if(arrayUnitSelected[i] == spn1Selected) {
+                spnCh2.setSelection(i)
+                buf2 = spn1Selected
+            }
+            else if(arrayUnitSelected[i] == spn2Selected){
+                spnCh1.setSelection(i)
+                buf1 = spn2Selected
+            }
+        }
+        spn1Selected = buf1
+        spn2Selected = buf2
     }
 }
