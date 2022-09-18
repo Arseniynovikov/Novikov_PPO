@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ConvertFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="311dp">
+
+        <Spinner
+            android:id="@+id/spnCh2"
+            android:layout_width="155dp"
+            android:layout_height="29dp"
+            android:layout_marginStart="240dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtOutput"
+            app:layout_constraintVertical_bias="0.013" />
+
+        <EditText
+            android:id="@+id/txtInput"
+            android:layout_width="155dp"
+            android:layout_height="55dp"
+            android:ems="10"
+            android:focusable="false"
+
+            android:hint="From"
+            android:inputType="text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.062"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.281" />
+
+        <EditText
+            android:id="@+id/txtOutput"
+            android:layout_width="155dp"
+            android:layout_height="55dp"
+            android:ems="10"
+            android:focusable="false"
+            android:hint="To"
+            android:inputType="text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.811"
+            app:layout_constraintStart_toEndOf="@+id/txtInput"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.281" />
+
+        <Button
+            android:id="@+id/btnExchange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ch"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.832" />
+
+        <Spinner
+            android:id="@+id/spnUnit"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:entries="@array/units"
+            app:layout_constraintBottom_toTopOf="@+id/btnExchange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.02" />
+
+        <Spinner
+            android:id="@+id/spnCh1"
+            android:layout_width="155dp"
+            android:layout_height="29dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtInput"
+            app:layout_constraintVertical_bias="0.013" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

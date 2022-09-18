@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">lab1</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">hello</string>
+
+    <string-array name="units">
+        <item>Weights</item>
+        <item>Distance</item>
+        <item>Currency</item>
+    </string-array>
+
+    <string-array name="weights">
+        <item>tons</item>
+        <item>kilograms</item>
+        <item>grams</item>
+    </string-array>
+
+    <string-array name="distance">
+        <item>kilometers</item>
+        <item>meters</item>
+        <item>millimeters</item>
+    </string-array>
+
+    <string-array name="currency">
+        <item>dollars</item>
+        <item>euro</item>
+        <item>rubles</item>
+    </string-array>
+</resources>
