@@ -5,7 +5,7 @@ import java.lang.Exception
 class ConverterCurrency: Converter() {
     private val fromCh: String = ""
     private val toCh: String = ""
-    private lateinit var convertOperation: ((Double) -> Double)
+    private var convertOperation: ((Double) -> Double) = {v: Double -> v}
 
     override fun convert(from_unit: String, to_unit: String, value: String): String {
         val valueDouble: Double

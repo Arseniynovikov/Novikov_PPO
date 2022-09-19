@@ -14,23 +14,36 @@ interface OnSelectedButtonListener {
 
 class KeyboardFragment : Fragment(), View.OnClickListener {
 
-    var checkPoint: Boolean = true
+    private var checkPoint: Boolean = true
+
+    private lateinit var btn1: Button
+    private lateinit var btn2: Button
+    private lateinit var btn3: Button
+    private lateinit var btn4: Button
+    private lateinit var btn5: Button
+    private lateinit var btn6: Button
+    private lateinit var btn7: Button
+    private lateinit var btn8: Button
+    private lateinit var btn9: Button
+    private lateinit var btn0: Button
+    private lateinit var btnPoint: Button
+    private lateinit var btnClean: Button
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val btn1: Button = view.findViewById(R.id.btn1)
-        val btn2: Button = view.findViewById(R.id.btn2)
-        val btn3: Button = view.findViewById(R.id.btn3)
-        val btn4: Button = view.findViewById(R.id.btn4)
-        val btn5: Button = view.findViewById(R.id.btn5)
-        val btn6: Button = view.findViewById(R.id.btn6)
-        val btn7: Button = view.findViewById(R.id.btn7)
-        val btn8: Button = view.findViewById(R.id.btn8)
-        val btn9: Button = view.findViewById(R.id.btn9)
-        val btn0: Button = view.findViewById(R.id.btn0)
-        val btnPoint: Button = view.findViewById(R.id.btnPoint)
-        val btnClean: Button = view.findViewById(R.id.btnClean)
+        btn1 = view.findViewById(R.id.btn1)
+        btn2 = view.findViewById(R.id.btn2)
+        btn3 = view.findViewById(R.id.btn3)
+        btn4 = view.findViewById(R.id.btn4)
+        btn5 = view.findViewById(R.id.btn5)
+        btn6 = view.findViewById(R.id.btn6)
+        btn7 = view.findViewById(R.id.btn7)
+        btn8 = view.findViewById(R.id.btn8)
+        btn9 = view.findViewById(R.id.btn9)
+        btn0 = view.findViewById(R.id.btn0)
+        btnPoint = view.findViewById(R.id.btnPoint)
+        btnClean = view.findViewById(R.id.btnClean)
 
         btn1.setOnClickListener(this)
         btn2.setOnClickListener(this)

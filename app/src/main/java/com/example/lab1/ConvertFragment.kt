@@ -1,10 +1,17 @@
 package com.example.lab1
 
+import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.PackageManagerCompat.LOG_TAG
 import androidx.fragment.app.Fragment
 import java.lang.reflect.Array
 
@@ -15,6 +22,8 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
     private lateinit var txtInput: TextView
     private lateinit var txtOut: TextView
     private lateinit var btnExchange: Button
+    private lateinit var btnInputCopy: Button
+    private lateinit var btnOutCopy: Button
 
     private lateinit var converter: Converter
 
@@ -23,11 +32,17 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
     private var spn2Selected: String = ""
     private lateinit var arrayUnitSelected: kotlin.Array<String>
 
+    private lateinit var clipboardManager: ClipboardManager
+    private lateinit var clipData: ClipData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
 
+        if (savedInstanceState != null) {
+            converter = savedInstanceState.getSerializable("converter") as Converter
+            spn1Selected = savedInstanceState.getString("spn1Selected").toString()
+            spn2Selected = savedInstanceState.getString("spn2Selected").toString()
+            arrayUnitSelected = savedInstanceState.getStringArray("arrayUnitSelected") as kotlin.Array<String>
         }
     }
 
@@ -41,12 +56,16 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
         txtInput = view.findViewById(R.id.txtInput)
         txtOut = view.findViewById(R.id.txtOutput)
         btnExchange = view.findViewById(R.id.btnExchange)
+        btnInputCopy = view.findViewById(R.id.btnInputCopy)
+        btnOutCopy = view.findViewById(R.id.btnOutCopy)
 
         spnUnit.onItemSelectedListener = this
         spnCh1.onItemSelectedListener = this
         spnCh2.onItemSelectedListener = this
 
         btnExchange.setOnClickListener(this)
+        btnInputCopy.setOnClickListener(this)
+        btnOutCopy.setOnClickListener(this)
     }
 
     fun setDescription(buttonIndex: Int) {
@@ -61,11 +80,24 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
             7 -> txtInput.append("7")
             8 -> txtInput.append("8")
             9 -> txtInput.append("9")
-            10 -> txtInput.append(".")
+            10 -> {
+                if (txtInput.text.toString() == "")
+                    txtInput.append("0.")
+                else
+                    txtInput.append(".")
+            }
             11 -> txtInput.text = ""
         }
 
+        println(txtOut)
+        println(converter)
+        println(spn1Selected)
+        println(spn2Selected)
+        println(txtInput)
+
+
         txtOut.text = converter.convert(spn1Selected, spn2Selected, txtInput.text.toString())
+
     }
 
 
@@ -97,8 +129,10 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
     }
 
     override fun onItemSelected(p0: AdapterView<*>?, view: View?, number: Int, p3: Long) {
-        if (p0!!.id == R.id.spnUnit) {
-            if (view != null) {
+        println("OnItemSelected")
+        if (view != null) {
+            if (p0!!.id == R.id.spnUnit) {
+
                 var adapter: ArrayAdapter<CharSequence>? = null
                 when (number) {
                     0 -> {
@@ -134,13 +168,14 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
                 adapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spnCh1.adapter = adapter
                 spnCh2.adapter = adapter
+            } else if (p0.id == R.id.spnCh1) {
+                spn1Selected = arrayUnitSelected[number]
+            } else if (p0.id == R.id.spnCh2) {
+                spn2Selected = arrayUnitSelected[number]
             }
-        } else if (p0.id == R.id.spnCh1) {
-            spn1Selected = arrayUnitSelected[number]
-        } else if (p0.id == R.id.spnCh2) {
-            spn2Selected = arrayUnitSelected[number]
+            txtOut.text = converter.convert(spn1Selected, spn2Selected, txtInput.text.toString())
         }
-        txtOut.text = converter.convert(spn1Selected, spn2Selected, txtInput.text.toString())
+
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -148,19 +183,51 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
     }
 
     override fun onClick(view: View?) {
-        var buf1: String = ""
-        var buf2: String = ""
-        for(i in 0..2){
-            if(arrayUnitSelected[i] == spn1Selected) {
-                spnCh2.setSelection(i)
-                buf2 = spn1Selected
-            }
-            else if(arrayUnitSelected[i] == spn2Selected){
-                spnCh1.setSelection(i)
-                buf1 = spn2Selected
+        if (view != null) {
+            when (view.id) {
+                R.id.btnExchange -> {
+                    var buf1: String = ""
+                    var buf2: String = ""
+                    for (i in 0..2) {
+                        if (arrayUnitSelected[i] == spn1Selected) {
+                            spnCh2.setSelection(i)
+                            buf2 = spn1Selected
+                        } else if (arrayUnitSelected[i] == spn2Selected) {
+                            spnCh1.setSelection(i)
+                            buf1 = spn2Selected
+                        }
+                    }
+                    spn1Selected = buf1
+                    spn2Selected = buf2
+
+                    val buf = txtInput.text
+                    txtInput.text = txtOut.text
+                    txtOut.text = buf
+
+                }
+                R.id.btnInputCopy -> {
+                    println("copy")
+                    clipboardManager =
+                        activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    clipData = ClipData.newPlainText("text", txtInput.text.toString())
+                    clipboardManager.setPrimaryClip(clipData)
+                }
+                R.id.btnOutCopy -> {
+                    clipboardManager =
+                        activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    clipData = ClipData.newPlainText("text", txtOut.text.toString())
+                    clipboardManager.setPrimaryClip(clipData)
+                }
             }
         }
-        spn1Selected = buf1
-        spn2Selected = buf2
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putSerializable("converter", converter)
+        outState.putString("spn1Selected", spn1Selected)
+        outState.putString("spn2Selected", spn2Selected)
+        outState.putStringArray("arrayUnitSelected", arrayUnitSelected)
     }
 }

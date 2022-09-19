@@ -19,9 +19,3 @@ class MainActivity : AppCompatActivity(), OnSelectedButtonListener {
         fragment2?.setDescription(btnIndex)
     }
 }
-/**
- * перекидываение значений
- * избавиться от округления
- * реализовать копирование в буфер обмена
- * пофиксить фронт
- */

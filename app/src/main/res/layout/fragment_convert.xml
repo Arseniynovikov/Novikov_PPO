@@ -10,47 +10,36 @@
         android:layout_width="match_parent"
         android:layout_height="311dp">
 
-        <Spinner
-            android:id="@+id/spnCh2"
-            android:layout_width="155dp"
-            android:layout_height="29dp"
-            android:layout_marginStart="240dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtOutput"
-            app:layout_constraintVertical_bias="0.013" />
+
 
         <EditText
             android:id="@+id/txtInput"
-            android:layout_width="155dp"
-            android:layout_height="55dp"
+            android:layout_width="121dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="16dp"
             android:ems="10"
-            android:focusable="false"
 
+            android:focusable="false"
             android:hint="From"
             android:inputType="text"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.062"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.281" />
+            app:layout_constraintVertical_bias="0.279" />
 
         <EditText
             android:id="@+id/txtOutput"
-            android:layout_width="155dp"
-            android:layout_height="55dp"
+            android:layout_width="121dp"
+            android:layout_height="57dp"
+            android:layout_marginEnd="56dp"
             android:ems="10"
             android:focusable="false"
             android:hint="To"
             android:inputType="text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.811"
-            app:layout_constraintStart_toEndOf="@+id/txtInput"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.281" />
+            app:layout_constraintVertical_bias="0.279" />
 
         <Button
             android:id="@+id/btnExchange"
@@ -66,15 +55,16 @@
 
         <Spinner
             android:id="@+id/spnUnit"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_width="372dp"
+            android:layout_height="35dp"
             android:entries="@array/units"
+            android:spinnerMode="dialog"
             app:layout_constraintBottom_toTopOf="@+id/btnExchange"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.41"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.02" />
+            app:layout_constraintVertical_bias="0.086" />
 
         <Spinner
             android:id="@+id/spnCh1"
@@ -82,10 +72,47 @@
             android:layout_height="29dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
+            android:entries="@array/weights"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtInput"
             app:layout_constraintVertical_bias="0.013" />
+
+        <Spinner
+            android:id="@+id/spnCh2"
+            android:layout_width="155dp"
+            android:layout_height="29dp"
+            android:layout_marginStart="232dp"
+            android:layout_marginTop="12dp"
+            android:entries="@array/weights"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtOutput"
+            app:layout_constraintVertical_bias="0.013" />
+
+        <Button
+            android:id="@+id/btnInputCopy"
+            android:layout_width="24dp"
+            android:layout_height="58dp"
+            android:layout_marginStart="8dp"
+            android:text="Button"
+            app:layout_constraintBottom_toTopOf="@+id/spnCh1"
+            app:layout_constraintStart_toEndOf="@+id/txtInput"
+            app:layout_constraintTop_toTopOf="@+id/txtInput"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/btnOutCopy"
+            android:layout_width="24dp"
+            android:layout_height="58dp"
+            android:layout_marginStart="8dp"
+            android:text="Button"
+            app:layout_constraintBottom_toTopOf="@+id/spnCh2"
+            app:layout_constraintStart_toEndOf="@+id/txtOutput"
+            app:layout_constraintTop_toTopOf="@+id/txtOutput"
+            app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

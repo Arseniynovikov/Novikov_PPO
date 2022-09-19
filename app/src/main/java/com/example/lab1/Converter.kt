@@ -1,6 +1,8 @@
 package com.example.lab1
 
-abstract class Converter() {
+import java.io.Serializable
+
+abstract class Converter() : Serializable {
     abstract fun convert(from_unit: String, to_unit: String, value: String): String
 
     companion object {
