@@ -1,50 +1,83 @@
 package com.example.lab1
 
 import java.lang.Exception
+import java.math.BigDecimal
 
-class ConverterCurrency: Converter() {
+class ConverterCurrency : Converter() {
     private val fromCh: String = ""
     private val toCh: String = ""
-    private var convertOperation: ((Double) -> Double) = {v: Double -> v}
+
+    //    private var convertOperation: ((Double) -> Double) = {v: Double -> v}
+    private var convertOperation: ((BigDecimal) -> BigDecimal) = { v: BigDecimal -> v }
 
     override fun convert(from_unit: String, to_unit: String, value: String): String {
-        val valueDouble: Double
+        val valueDouble: BigDecimal
         try {
-            valueDouble = value.toDouble()
-        }
-        catch (e: Exception){
+            valueDouble = value.toBigDecimal()
+        } catch (e: Exception) {
             return ""
         }
 
         if (fromCh != from_unit || toCh != to_unit) {
             if (from_unit == "dollars" && to_unit == "dollars") {
-                convertOperation = {v: Double -> v}
+
+                convertOperation = {v: BigDecimal -> v}
             }
             else if(from_unit == "dollars" && to_unit == "euro") {
-                convertOperation = {v: Double -> v * 1.0026}
+                val buf = 1.0026
+                convertOperation = {v: BigDecimal -> v.multiply(buf.toString().toBigDecimal())}
             }
             else if(from_unit == "dollars" && to_unit == "rubles") {
-                convertOperation = {v: Double -> v * 2.532}
+                val buf = 2.532
+                convertOperation = {v: BigDecimal -> v.multiply(buf.toString().toBigDecimal())}
             }
             else if(from_unit == "euro" && to_unit == "euro") {
-                convertOperation = {v: Double -> v}
+
+                convertOperation = {v: BigDecimal -> v}
             }
             else if(from_unit == "euro" && to_unit == "dollars") {
-                convertOperation = {v: Double -> v * 0.997}
+                val buf = 0.997
+                convertOperation = {v: BigDecimal -> v.multiply(buf.toString().toBigDecimal())}
             }
             else if(from_unit == "euro" && to_unit == "rubles") {
-                convertOperation = {v: Double -> v * 2.525}
+                val buf = 2.525
+                convertOperation = {v: BigDecimal -> v.multiply(buf.toString().toBigDecimal())}
             }
             else if(from_unit == "rubles" && to_unit == "rubles") {
-                convertOperation = {v: Double -> v}
+
+                convertOperation = {v: BigDecimal -> v}
             }
             else if(from_unit == "rubles" && to_unit == "dollars") {
-                convertOperation = {v: Double -> v * 0.3949}
+                val buf = 0.3949
+                convertOperation = {v: BigDecimal -> v.multiply(buf.toString().toBigDecimal())}
             }
             else if(from_unit == "rubles" && to_unit == "euro") {
-                convertOperation = {v: Double -> v * 0.396}
+                val buf = 0.396
+                convertOperation = {v: BigDecimal -> v.multiply(buf.toString().toBigDecimal())}
             }
         }
+
+//        if (fromCh != from_unit || toCh != to_unit) {
+//            if (from_unit == "dollars" && to_unit == "dollars") {
+//                convertOperation = { v: Double -> v }
+//            } else if (from_unit == "dollars" && to_unit == "euro") {
+//                convertOperation = { v: Double -> v * 1.0026 }
+//            } else if (from_unit == "dollars" && to_unit == "rubles") {
+//                convertOperation = { v: Double -> v * 2.532 }
+//            } else if (from_unit == "euro" && to_unit == "euro") {
+//                convertOperation = { v: Double -> v }
+//            } else if (from_unit == "euro" && to_unit == "dollars") {
+//                convertOperation = { v: Double -> v * 0.997 }
+//            } else if (from_unit == "euro" && to_unit == "rubles") {
+//                convertOperation = { v: Double -> v * 2.525 }
+//            } else if (from_unit == "rubles" && to_unit == "rubles") {
+//                convertOperation = { v: Double -> v }
+//            } else if (from_unit == "rubles" && to_unit == "dollars") {
+//                convertOperation = { v: Double -> v * 0.3949 }
+//            } else if (from_unit == "rubles" && to_unit == "euro") {
+//                convertOperation = { v: Double -> v * 0.396 }
+//            }
+//        }
 
         return convertOperation(valueDouble).toString()
     }

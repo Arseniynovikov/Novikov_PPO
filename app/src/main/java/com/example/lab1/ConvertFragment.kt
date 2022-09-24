@@ -70,7 +70,14 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
 
     fun setDescription(buttonIndex: Int) {
         when (buttonIndex) {
-            0 -> txtInput.append("0")
+            0 -> {
+                println(txtInput.text)
+                if(txtInput.text.toString() == "0") {
+
+                    return
+                }
+                txtInput.append("0")
+            }
             1 -> txtInput.append("1")
             2 -> txtInput.append("2")
             3 -> txtInput.append("3")
