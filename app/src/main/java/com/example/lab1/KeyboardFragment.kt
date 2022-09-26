@@ -14,7 +14,7 @@ interface OnSelectedButtonListener {
 
 class KeyboardFragment : Fragment(), View.OnClickListener {
 
-    private var checkPoint: Boolean = true
+    private var hasPoint: Boolean = true
 
     private lateinit var btn1: Button
     private lateinit var btn2: Button
@@ -81,14 +81,14 @@ class KeyboardFragment : Fragment(), View.OnClickListener {
             R.id.btn8 -> index = 8
             R.id.btn9 -> index = 9
             R.id.btnPoint -> {
-                if (checkPoint) {
+                if (hasPoint) {
                     index = 10
-                    checkPoint = false
+                    hasPoint = false
                 }
             }
             R.id.btnClean -> {
                 index = 11
-                checkPoint = true
+                hasPoint = true
             }
         }
 
@@ -99,7 +99,7 @@ class KeyboardFragment : Fragment(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-
+            hasPoint = it.getBoolean("hasPoint")
         }
     }
 
@@ -111,22 +111,9 @@ class KeyboardFragment : Fragment(), View.OnClickListener {
         return inflater.inflate(R.layout.fragment_keyboard, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment keyboardFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            KeyboardFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean("hasPoint", hasPoint)
     }
+
 }
