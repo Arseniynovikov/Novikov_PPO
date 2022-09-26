@@ -98,8 +98,9 @@ class KeyboardFragment : Fragment(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            hasPoint = it.getBoolean("hasPoint")
+
+        if (savedInstanceState != null) {
+            hasPoint = savedInstanceState.getBoolean("hasPoint")
         }
     }
 
