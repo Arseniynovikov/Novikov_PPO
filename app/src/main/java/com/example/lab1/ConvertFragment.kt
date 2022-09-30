@@ -35,6 +35,8 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
     private lateinit var clipboardManager: ClipboardManager
     private lateinit var clipData: ClipData
 
+    private var ch = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -101,6 +103,7 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
         println(spn1Selected)
         println(spn2Selected)
         println(txtInput)
+        ch = true
 
 
         txtOut.text = converter.convert(spn1Selected, spn2Selected, txtInput.text.toString())
@@ -118,7 +121,7 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
 
     override fun onItemSelected(p0: AdapterView<*>?, view: View?, number: Int, p3: Long) {
         println("OnItemSelected")
-        if (view != null) {
+        if (view != null && ch) {
             if (p0!!.id == R.id.spnUnit) {
 
                 var adapter: ArrayAdapter<CharSequence>? = null
@@ -174,6 +177,7 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
         if (view != null) {
             when (view.id) {
                 R.id.btnExchange -> {
+                    ch = false
                     var buf1: String = ""
                     var buf2: String = ""
                     for (i in 0..2) {
