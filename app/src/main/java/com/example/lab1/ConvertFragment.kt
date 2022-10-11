@@ -8,10 +8,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 
+
 class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnClickListener{
+    private val duration = Toast.LENGTH_SHORT
+
     private lateinit var spnUnit: Spinner
     private lateinit var spnCh1: Spinner
     private lateinit var spnCh2: Spinner
@@ -33,38 +38,34 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
     private lateinit var clipboardManager: ClipboardManager
     private lateinit var clipData: ClipData
 
-    private var ch = true
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Log.v(tag, "onCreate")
-
 
         if (savedInstanceState != null) {
             converter = savedInstanceState.getSerializable("converter") as Converter
             spn1Selected = savedInstanceState.getString("spn1Selected").toString()
             spn2Selected = savedInstanceState.getString("spn2Selected").toString()
-            ch = savedInstanceState.getBoolean("ch")
             arrayUnitSelected =
                 savedInstanceState.getStringArray("arrayUnitSelected") as Array<String>
             spn1Number = savedInstanceState.getInt("spn1Number")
             spn2Number = savedInstanceState.getInt("spn2Number")
         }
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Log.v(tag, "onViewCreated")
-
 
         spnUnit = view.findViewById(R.id.spnUnit)
         spnCh1 = view.findViewById(R.id.spnCh1)
         spnCh2 = view.findViewById(R.id.spnCh2)
 
         txtInput = view.findViewById(R.id.txtInput)
+        txtInput.showSoftInputOnFocus = false
         txtOut = view.findViewById(R.id.txtOutput)
+        txtOut.showSoftInputOnFocus = false
+
         btnExchange = view.findViewById(R.id.btnExchange)
         btnInputCopy = view.findViewById(R.id.btnInputCopy)
         btnOutCopy = view.findViewById(R.id.btnOutCopy)
@@ -80,17 +81,19 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
     }
 
     fun setDescription(buttonIndex: Int) {
-        ch = true
         when (buttonIndex) {
             0 -> {
-                println(txtInput.text)
                 if (txtInput.text.toString() == "0") {
+                    val toast = Toast.makeText(context, "ошибка ввода", duration)
+                    toast.show()
 
                     return
                 }
                 txtInput.append("0")
             }
-            1 -> txtInput.append("1")
+            1 -> {
+
+            }
             2 -> txtInput.append("2")
             3 -> txtInput.append("3")
             4 -> txtInput.append("4")
@@ -107,11 +110,8 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
             }
             11 -> txtInput.text = ""
         }
-
-
         txtOut.text =
             converter.convert(spn1Selected, spn2Selected, txtInput.text.toString())
-
 
     }
 
@@ -125,12 +125,10 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
     }
 
     override fun onItemSelected(p0: AdapterView<*>?, view: View?, number: Int, p3: Long) {
-        Log.w(tag, "onItemSelected")
-        if (view != null && ch) {
+        if (view != null) {
             when (p0!!.id) {
                 R.id.spnUnit -> {
                     selectedUnit(number, view)
-                    Log.w(tag, "spnUnit")
                 }
 
                 R.id.spnCh1 -> {
@@ -141,10 +139,14 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
                 R.id.spnCh2 -> {
                     spn2Selected = arrayUnitSelected[number]
                     spn2Number = number
+                    Log.w(tag, "$number")
                 }
             }
+
             txtOut.text =
                 converter.convert(spn1Selected, spn2Selected, txtInput.text.toString())
+
+
         }
 
 
@@ -218,30 +220,18 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
     }
 
     private fun exchange() {
-        ch = false
-        lateinit var buf1 : String
-        var buf2 = ""
-        for (i in 0..2) {
+        spn1Selected = arrayUnitSelected[spn2Number]
+        spn2Selected = arrayUnitSelected[spn1Number]
 
-            when(arrayUnitSelected[i]){
-                spn1Selected -> {
-                    spnCh2.setSelection(i)
-                    buf2 = spn1Selected
-                }
-                spn2Selected -> {
-                    spnCh1.setSelection(i)
-                    buf1 = spn2Selected
-                }
+        var buf = txtOut.text
+
+        while (true)
+            if ("." in buf && buf.last() == '0' && buf[buf.length - 2] != '.') {
+                buf = buf.dropLast(1)
             }
-
-        }
-        spn1Selected = buf1
-        spn2Selected = buf2
-
-
-        val buf = txtInput.text
-        txtInput.text = txtOut.text
-        txtOut.text = buf
+            else {
+                break
+            }
 
         val bufNum = spn1Number
         spn1Number = spn2Number
@@ -250,6 +240,9 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
         spnCh1.setSelection(spn1Number)
         spnCh2.setSelection(spn2Number)
 
+
+        txtInput.text = buf
+
     }
 
     private fun copy() {
@@ -257,6 +250,9 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
             activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         clipData = ClipData.newPlainText("text", txtInput.text.toString())
         clipboardManager.setPrimaryClip(clipData)
+
+        val toast = Toast.makeText(context, "скопировано!", duration)
+        toast.show()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -266,10 +262,8 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
         outState.putString("spn1Selected", spn1Selected)
         outState.putString("spn2Selected", spn2Selected)
         outState.putStringArray("arrayUnitSelected", arrayUnitSelected)
-        outState.putBoolean("ch", ch)
         outState.putInt("spn1Number", spn1Number)
         outState.putInt("spn2Number", spn2Number)
 
     }
-
 }

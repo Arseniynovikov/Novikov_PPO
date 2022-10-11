@@ -11,6 +11,12 @@
         android:layout_height="311dp">
 
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <EditText
             android:id="@+id/txtInput"
@@ -18,8 +24,6 @@
             android:layout_height="57dp"
             android:layout_marginStart="16dp"
             android:ems="10"
-
-            android:focusable="false"
             android:hint="From"
             android:inputType="text"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -33,7 +37,6 @@
             android:layout_height="57dp"
             android:layout_marginEnd="56dp"
             android:ems="10"
-            android:focusable="false"
             android:hint="To"
             android:inputType="text"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -113,6 +116,7 @@
             app:layout_constraintStart_toEndOf="@+id/txtOutput"
             app:layout_constraintTop_toTopOf="@+id/txtOutput"
             app:layout_constraintVertical_bias="0.0" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

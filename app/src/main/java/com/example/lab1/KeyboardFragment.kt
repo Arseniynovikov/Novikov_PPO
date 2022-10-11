@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 
@@ -84,6 +85,10 @@ class KeyboardFragment : Fragment(), View.OnClickListener {
                 if (hasPoint) {
                     index = 10
                     hasPoint = false
+
+                    val duration = Toast.LENGTH_SHORT
+                    val toast = Toast.makeText(context, "точка уже есть", duration)
+                    toast.show()
                 }
             }
             R.id.btnClean -> {
