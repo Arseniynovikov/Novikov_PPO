@@ -7,7 +7,6 @@ import android.view.View
 import android.view.View.OnLongClickListener
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 
@@ -16,8 +15,6 @@ interface OnSelectedButtonListener {
 }
 
 class KeyboardFragment : Fragment(), View.OnClickListener, OnLongClickListener {
-
-    private var hasPoint: Boolean = true
 
     private lateinit var btn1: Button
     private lateinit var btn2: Button
@@ -86,10 +83,7 @@ class KeyboardFragment : Fragment(), View.OnClickListener, OnLongClickListener {
             R.id.btn8 -> index = 8
             R.id.btn9 -> index = 9
             R.id.btnPoint -> index = 10
-            R.id.btnClean -> {
-                index = 11
-                hasPoint = true
-            }
+            R.id.btnClean -> index = 11
         }
 
         return index
@@ -102,16 +96,6 @@ class KeyboardFragment : Fragment(), View.OnClickListener, OnLongClickListener {
         return true
     }
 
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        if (savedInstanceState != null) {
-            hasPoint = savedInstanceState.getBoolean("hasPoint")
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -119,12 +103,5 @@ class KeyboardFragment : Fragment(), View.OnClickListener, OnLongClickListener {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_keyboard, container, false)
     }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean("hasPoint", hasPoint)
-    }
-
-
 
 }

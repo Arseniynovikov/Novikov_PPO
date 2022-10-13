@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_keyboard" />
 
     <fragment
-        android:id="@+id/cunvert_fragment"
+        android:id="@+id/convert_fragment"
         android:name="com.example.lab1.ConvertFragment"
         android:layout_width="391dp"
         android:layout_height="369dp"

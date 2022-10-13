@@ -7,7 +7,7 @@
     tools:context=".MainActivity"
     android:theme="@android:style/Theme.Black.NoTitleBar">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/key_fragment"
         android:name="com.example.lab1.KeyboardFragment"
         android:layout_width="match_parent"
@@ -19,8 +19,8 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout="@layout/fragment_keyboard"/>
 
-    <fragment
-        android:id="@+id/cunvert_fragment"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/convert_fragment"
         android:name="com.example.lab1.ConvertFragment"
         android:layout_width="match_parent"
         android:layout_height="301dp"

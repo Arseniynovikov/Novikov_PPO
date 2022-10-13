@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity(), OnSelectedButtonListener {
         val fragmentManager = supportFragmentManager
 
         // Получаем ссылку на второй фрагмент по ID
-        val fragment2 = fragmentManager.findFragmentById(R.id.cunvert_fragment) as ConvertFragment?
+        val fragment2 = fragmentManager.findFragmentById(R.id.convert_fragment) as ConvertFragment?
         fragment2?.setDescription(btnIndex)
     }
 }
