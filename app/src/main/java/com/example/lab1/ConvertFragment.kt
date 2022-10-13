@@ -5,23 +5,19 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
+import android.view.*
 import android.widget.*
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 
 
-class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnClickListener{
+class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnClickListener {
     private val duration = Toast.LENGTH_SHORT
 
     private lateinit var spnUnit: Spinner
     private lateinit var spnCh1: Spinner
     private lateinit var spnCh2: Spinner
-    private lateinit var txtInput: TextView
-    private lateinit var txtOut: TextView
+    private lateinit var txtInput: EditText
+    private lateinit var txtOut: EditText
     private lateinit var btnExchange: Button
     private lateinit var btnInputCopy: Button
     private lateinit var btnOutCopy: Button
@@ -38,6 +34,10 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
     private lateinit var clipboardManager: ClipboardManager
     private lateinit var clipData: ClipData
 
+
+    private var textFromInputEdit = StringBuilder("")
+    private var positionInInputEdit = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,6 +49,7 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
                 savedInstanceState.getStringArray("arrayUnitSelected") as Array<String>
             spn1Number = savedInstanceState.getInt("spn1Number")
             spn2Number = savedInstanceState.getInt("spn2Number")
+            textFromInputEdit = StringBuilder(savedInstanceState.getString("txtInput").toString())
         }
 
 
@@ -63,12 +64,16 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
 
         txtInput = view.findViewById(R.id.txtInput)
         txtInput.showSoftInputOnFocus = false
+        registerForContextMenu(txtInput);
+
+
         txtOut = view.findViewById(R.id.txtOutput)
         txtOut.showSoftInputOnFocus = false
 
         btnExchange = view.findViewById(R.id.btnExchange)
         btnInputCopy = view.findViewById(R.id.btnInputCopy)
         btnOutCopy = view.findViewById(R.id.btnOutCopy)
+
 
         spnUnit.onItemSelectedListener = this
         spnCh1.onItemSelectedListener = this
@@ -81,37 +86,73 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
     }
 
     fun setDescription(buttonIndex: Int) {
+
+        positionInInputEdit = txtInput.selectionStart
+
         when (buttonIndex) {
             0 -> {
-                if (txtInput.text.toString() == "0") {
-                    val toast = Toast.makeText(context, "ошибка ввода", duration)
-                    toast.show()
-
-                    return
-                }
-                txtInput.append("0")
+                textFromInputEdit.insert(positionInInputEdit, "0")
             }
             1 -> {
-
+                textFromInputEdit.insert(positionInInputEdit, "1")
             }
-            2 -> txtInput.append("2")
-            3 -> txtInput.append("3")
-            4 -> txtInput.append("4")
-            5 -> txtInput.append("5")
-            6 -> txtInput.append("6")
-            7 -> txtInput.append("7")
-            8 -> txtInput.append("8")
-            9 -> txtInput.append("9")
+            2 -> {
+                textFromInputEdit.insert(positionInInputEdit, "2")
+            }
+            3 -> {
+                textFromInputEdit.insert(positionInInputEdit, "3")
+            }
+            4 -> {
+                textFromInputEdit.insert(positionInInputEdit, "4")
+            }
+            5 -> {
+                textFromInputEdit.insert(positionInInputEdit, "5")
+            }
+            6 -> {
+                textFromInputEdit.insert(positionInInputEdit, "6")
+            }
+            7 -> {
+                textFromInputEdit.insert(positionInInputEdit, "7")
+            }
+            8 -> {
+                textFromInputEdit.insert(positionInInputEdit, "8")
+            }
+            9 -> {
+                textFromInputEdit.insert(positionInInputEdit, "9")
+            }
             10 -> {
-                if (txtInput.text.toString() == "")
-                    txtInput.append("0.")
-                else
-                    txtInput.append(".")
+                if (!textFromInputEdit.contains(".")) {
+                    if (textFromInputEdit.isEmpty()) {
+                        textFromInputEdit.append("0.")
+                        positionInInputEdit += 1
+                    } else
+                        textFromInputEdit.insert(positionInInputEdit, ".")
+                }
+                else {
+                    Toast.makeText(context, "точка уже есть", Toast.LENGTH_SHORT).show()
+                    return
+                }
             }
-            11 -> txtInput.text = ""
+            11 -> {
+                if (positionInInputEdit >= 1) {
+                    textFromInputEdit.deleteCharAt(positionInInputEdit - 1)
+                    positionInInputEdit -= 2
+                } else return
+            }
+            12 -> {
+                textFromInputEdit.clear()
+                txtInput.text.clear()
+                positionInInputEdit = 0
+                txtOut.text.clear()
+                return
+            }
         }
-        txtOut.text =
-            converter.convert(spn1Selected, spn2Selected, txtInput.text.toString())
+        positionInInputEdit += 1
+        txtInput.setText(textFromInputEdit)
+        txtInput.setSelection(positionInInputEdit)
+
+        txtOut.setText(converter.convert(spn1Selected, spn2Selected, txtInput.text.toString()))
+
 
     }
 
@@ -143,8 +184,7 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
                 }
             }
 
-            txtOut.text =
-                converter.convert(spn1Selected, spn2Selected, txtInput.text.toString())
+            txtOut.setText(converter.convert(spn1Selected, spn2Selected, txtInput.text.toString()))
 
 
         }
@@ -210,10 +250,10 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
                     exchange()
                 }
                 R.id.btnInputCopy -> {
-                    copy()
+                    copy(txtInput.text.toString())
                 }
                 R.id.btnOutCopy -> {
-                    copy()
+                    copy(txtOut.text.toString())
                 }
             }
         }
@@ -223,13 +263,12 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
         spn1Selected = arrayUnitSelected[spn2Number]
         spn2Selected = arrayUnitSelected[spn1Number]
 
-        var buf = txtOut.text
+        var buf = txtOut.text.toString()
 
         while (true)
             if ("." in buf && buf.last() == '0' && buf[buf.length - 2] != '.') {
                 buf = buf.dropLast(1)
-            }
-            else {
+            } else {
                 break
             }
 
@@ -241,18 +280,34 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
         spnCh2.setSelection(spn2Number)
 
 
-        txtInput.text = buf
+        txtInput.setText(buf)
 
     }
-
-    private fun copy() {
+    private fun copy(text: String) {
         clipboardManager =
             activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipData = ClipData.newPlainText("text", txtInput.text.toString())
+        clipData = ClipData.newPlainText("text", text)
         clipboardManager.setPrimaryClip(clipData)
 
         val toast = Toast.makeText(context, "скопировано!", duration)
         toast.show()
+    }
+
+    private fun paste() {
+        positionInInputEdit = txtInput.selectionStart
+
+        val bufTxt = clipboardManager.primaryClip?.getItemAt(0)?.text
+
+        if(bufTxt.toString().contains(".") && textFromInputEdit.toString().contains(".")){
+            Toast.makeText(context, "при вставке будет две точки", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        textFromInputEdit.insert(positionInInputEdit, bufTxt)
+        txtInput.setText(textFromInputEdit.toString())
+
+        positionInInputEdit += bufTxt!!.length
+        txtInput.setSelection(positionInInputEdit)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -264,6 +319,32 @@ class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnC
         outState.putStringArray("arrayUnitSelected", arrayUnitSelected)
         outState.putInt("spn1Number", spn1Number)
         outState.putInt("spn2Number", spn2Number)
+        outState.putString("txtInput", textFromInputEdit.toString())
 
     }
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu,
+        v: View,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        val inflater = MenuInflater(context)
+        inflater.inflate(R.menu.menu_edit, menu)
+        menu.setHeaderTitle("Select The Action")
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+
+        if(item.itemId ==R.id.paste){
+            paste()
+        }else{
+            return false;
+        }
+        return true;
+    }
+
+
 }
+
+

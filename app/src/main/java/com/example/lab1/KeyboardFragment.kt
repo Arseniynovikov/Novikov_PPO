@@ -1,8 +1,10 @@
 package com.example.lab1
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnLongClickListener
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
@@ -13,7 +15,7 @@ interface OnSelectedButtonListener {
     fun onButtonSelected(btnIndex: Int)
 }
 
-class KeyboardFragment : Fragment(), View.OnClickListener {
+class KeyboardFragment : Fragment(), View.OnClickListener, OnLongClickListener {
 
     private var hasPoint: Boolean = true
 
@@ -58,11 +60,12 @@ class KeyboardFragment : Fragment(), View.OnClickListener {
         btn0.setOnClickListener(this)
         btnPoint.setOnClickListener(this)
         btnClean.setOnClickListener(this)
+        btnClean.setOnLongClickListener(this)
 
     }
 
-    override fun onClick(p0: View?) {
-        val btnIndex = fromIdToIndex(p0!!.id)
+    override fun onClick(v: View?) {
+        val btnIndex = fromIdToIndex(v!!.id)
 
         val listener = activity as OnSelectedButtonListener?
         listener?.onButtonSelected(btnIndex)
@@ -70,6 +73,7 @@ class KeyboardFragment : Fragment(), View.OnClickListener {
 
     private fun fromIdToIndex(id: Int): Int {
         var index = -1
+
         when (id) {
             R.id.btn0 -> index = 0
             R.id.btn1 -> index = 1
@@ -81,16 +85,7 @@ class KeyboardFragment : Fragment(), View.OnClickListener {
             R.id.btn7 -> index = 7
             R.id.btn8 -> index = 8
             R.id.btn9 -> index = 9
-            R.id.btnPoint -> {
-                if (hasPoint) {
-                    index = 10
-                    hasPoint = false
-
-                    val duration = Toast.LENGTH_SHORT
-                    val toast = Toast.makeText(context, "точка уже есть", duration)
-                    toast.show()
-                }
-            }
+            R.id.btnPoint -> index = 10
             R.id.btnClean -> {
                 index = 11
                 hasPoint = true
@@ -99,6 +94,14 @@ class KeyboardFragment : Fragment(), View.OnClickListener {
 
         return index
     }
+
+    override fun onLongClick(v: View?): Boolean {
+        val listener = activity as OnSelectedButtonListener?
+
+        listener?.onButtonSelected(12)
+        return true
+    }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -121,5 +124,7 @@ class KeyboardFragment : Fragment(), View.OnClickListener {
         super.onSaveInstanceState(outState)
         outState.putBoolean("hasPoint", hasPoint)
     }
+
+
 
 }
