@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel(){
 
-    private lateinit var liveData: MutableLiveData<String>
-
-    fun getLiveData() : LiveData<String>{
-        return liveData
-    }
+//    private lateinit var liveData: MutableLiveData<String>
+//
+//    fun getLiveData() : LiveData<String>{
+//        return liveData
+//    }
 
 }

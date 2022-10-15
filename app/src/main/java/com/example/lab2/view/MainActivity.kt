@@ -17,9 +17,9 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
-        viewModel.getLiveData().observe(this, Observer{
-
-        })
+//        viewModel.getLiveData().observe(this, Observer{
+//
+//        })
 
     }
 
