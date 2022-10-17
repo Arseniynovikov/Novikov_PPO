@@ -2,7 +2,6 @@ package com.example.lab2.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab2.viewmodel.MainViewModel
 import com.example.lab2.R

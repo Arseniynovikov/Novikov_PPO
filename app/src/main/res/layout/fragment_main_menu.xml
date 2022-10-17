@@ -5,9 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".view.MainMenuFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/timersView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        tools:listitem="@layout/recycler_main_adapter"/>
 
 </FrameLayout>
