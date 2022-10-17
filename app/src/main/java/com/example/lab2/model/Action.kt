@@ -13,7 +13,7 @@ class Action() {
     var time: Int
         get() = _time
         set(value) {
-            if (value > 0)
+            if (value >= 0)
                 _time = value
         }
 

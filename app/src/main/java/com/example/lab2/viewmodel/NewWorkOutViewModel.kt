@@ -1,12 +1,11 @@
 package com.example.lab2.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.lab2.DBWork
 import com.example.lab2.model.Action
 
-class MainMenuViewModel(actionDataList: MutableList<Action>) : ViewModel() {
+class NewWorkOutViewModel() : ViewModel() {
 
     private var _actionData = MutableLiveData<MutableList<Action>>()
     var actionData
@@ -16,7 +15,19 @@ class MainMenuViewModel(actionDataList: MutableList<Action>) : ViewModel() {
         }
 
     init {
-        _actionData.value = actionDataList
+        _actionData.value = DBWork.read()
+
+    }
+
+    fun addElem(){
+        val list = actionData.value!!
+        list.add(Action("", 0))
+        actionData.value = list
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        DBWork.save(this._actionData.value!!)
     }
 
 }

@@ -9,12 +9,12 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="com.example.lab2.view.MainMenuFragment"
+        android:name="com.example.lab2.view.NewWorkOutFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_main_menu"/>
+        tools:layout="@layout/fragment_new_workout"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

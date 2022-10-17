@@ -1,19 +1,20 @@
 package com.example.lab2
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.example.lab2.model.Action
+import com.example.lab2.view.MainActivity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import org.json.JSONObject
 import java.io.*
 
 
-class DBWork {
+class DBWork() {
     companion object {
         private val FILE_NAME = "actions.json"
 
-        fun read(context: Context?): MutableList<Action> {
-            val file = File(context!!.filesDir, FILE_NAME)
+        fun read(): MutableList<Action> {
+            val file = File(MainActivity.appContext.filesDir, FILE_NAME)
             val fileReader = FileReader(file)
             val bufferedReader = BufferedReader(fileReader)
             val gson = Gson()
@@ -25,11 +26,11 @@ class DBWork {
 
         }
 
-        fun save(context: Context?, actions: MutableList<Action>) {
+        fun save(actions: MutableList<Action>) {
             val gson = Gson()
 
             val userString: String = gson.toJson(actions)
-            val file = File(context!!.filesDir, FILE_NAME)
+            val file = File(MainActivity.appContext.filesDir, FILE_NAME)
             val fileWriter = FileWriter(file)
             val bufferedWriter = BufferedWriter(fileWriter)
             bufferedWriter.write(userString)

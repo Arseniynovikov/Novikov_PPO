@@ -1,25 +1,23 @@
 package com.example.lab2.view
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
+import android.view.*
+import android.widget.Button
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lab2.DBWork
 import com.example.lab2.R
 import com.example.lab2.adapter.TimersAdapter
-import com.example.lab2.model.Action
-import com.example.lab2.viewmodel.MainMenuViewModel
-import com.example.lab2.viewmodel.MainMenuViewModelFactory
+import com.example.lab2.viewmodel.NewWorkOutViewModel
 
-class MainMenuFragment : Fragment() {
-    private lateinit var viewModel: MainMenuViewModel
+
+class NewWorkOutFragment : Fragment() {
+    private lateinit var viewModel: NewWorkOutViewModel
     private lateinit var timers: RecyclerView
+    private lateinit var addButton: Button
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -27,20 +25,25 @@ class MainMenuFragment : Fragment() {
 
         timers = view.findViewById(R.id.timersView)
         timers.layoutManager = LinearLayoutManager(this.context)
-
         timers.adapter = TimersAdapter(viewModel.actionData.value!!)
+
+
+        addButton = view.findViewById(R.id.addButton)
+        addButton.setOnClickListener{
+            viewModel.addElem()
+        }
+
 
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, MainMenuViewModelFactory(this.context))[MainMenuViewModel::class.java]
-
-
-
+        viewModel = ViewModelProvider(this)[NewWorkOutViewModel::class.java]
         viewModel.actionData.observe(this, Observer{
-
+            timers.adapter = TimersAdapter(it!!)
         })
+
+
 
     }
 
@@ -49,13 +52,6 @@ class MainMenuFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_main_menu, container, false)
+        return inflater.inflate(R.layout.fragment_new_workout, container, false)
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        DBWork.save(this.context, viewModel.actionData.value!!)
-    }
-
 }

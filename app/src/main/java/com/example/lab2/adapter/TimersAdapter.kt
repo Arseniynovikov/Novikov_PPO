@@ -1,6 +1,5 @@
 package com.example.lab2.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,33 +10,45 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.lab2.R
 import com.example.lab2.model.Action
 
-class TimersAdapter(private val list: MutableList<Action>) :
+class TimersAdapter(private val list: MutableList<Action>, ) :
     RecyclerView.Adapter<TimersAdapter.TimerViewHolder>() {
 
 
     class TimerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private var TV: TextView
-        private var Edit: EditText
-        private var Button: Button
-        var index: TextView
+        private var nameText: TextView
+        private var timeEdit: EditText
+        private var plusButton: Button
+        private var minusButton: Button
 
         init {
-            TV = itemView.findViewById(R.id.textView)
-            index = itemView.findViewById(R.id.index)
-            Edit = itemView.findViewById(R.id.edit)
-            Button = itemView.findViewById(R.id.button)
+            nameText = itemView.findViewById(R.id.nameEdit)
+            timeEdit = itemView.findViewById(R.id.timeEdit)
+            plusButton = itemView.findViewById(R.id.plusButton)
+            minusButton = itemView.findViewById(R.id.minusButton)
 
-            Button.setOnClickListener {
-                TV.text = Edit.text
+        }
+
+        fun bind(action: Action) {
+            nameText.text = action.name
+            timeEdit.setText(action.time.toString())
+
+            plusButton.setOnClickListener {
+                action.time += 1
+                timeEdit.setText(action.time.toString())
+
             }
+
+            minusButton.setOnClickListener {
+                if (action.time > 0) {
+                    action.time -= 1
+                    timeEdit.setText(action.time.toString())
+
+                }
+
+            }
+
         }
 
-        fun bind(action: Action){
-            //index.text = position.toString()
-
-            Edit.setText(action.name)
-            TV.text = action.time.toString()
-        }
 
     }
 

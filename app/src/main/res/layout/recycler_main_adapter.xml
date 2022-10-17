@@ -1,34 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-
-    <EditText
-        android:id="@+id/edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/index"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="TextView" />
+        app:srcCompat="@drawable/ic_launcher_foreground"
+        android:layout_margin="10dp"/>
+
+    <EditText
+        android:id="@+id/nameEdit"
+        android:layout_width="35dp"
+        android:layout_height="46dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:foregroundGravity="center"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/plusButton"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:layout_margin="10dp"/>
+
+    <EditText
+        android:id="@+id/timeEdit"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/minusButton"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:layout_margin="10dp"/>
+
 </LinearLayout>
