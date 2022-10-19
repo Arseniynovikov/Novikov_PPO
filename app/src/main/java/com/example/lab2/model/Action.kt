@@ -1,6 +1,6 @@
 package com.example.lab2.model
 
-class Action() {
+open class Action() {
 
     private var _name: String = ""
     var name: String
@@ -10,7 +10,7 @@ class Action() {
         }
 
     private var _time: Int = 0
-    var time: Int
+    open var time: Int
         get() = _time
         set(value) {
             if (value >= 0)

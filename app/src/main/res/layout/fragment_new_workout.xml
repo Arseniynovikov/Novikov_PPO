@@ -36,7 +36,7 @@
         android:id="@+id/timersView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/recycler_main_adapter"
+        tools:listitem="@layout/recycler_action_adapter"
         android:layout_marginTop="47dp"/>
 
 

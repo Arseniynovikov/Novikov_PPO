@@ -54,7 +54,7 @@ class TimersAdapter(private val list: MutableList<Action>, ) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimerViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recycler_main_adapter, parent, false)
+            .inflate(R.layout.recycler_action_adapter, parent, false)
         return TimerViewHolder(view)
     }
 

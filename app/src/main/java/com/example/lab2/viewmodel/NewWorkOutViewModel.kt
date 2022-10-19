@@ -14,20 +14,10 @@ class NewWorkOutViewModel() : ViewModel() {
             _actionData = value
         }
 
-    init {
-        _actionData.value = DBWork.read()
-
-    }
-
     fun addElem(){
         val list = actionData.value!!
         list.add(Action("", 0))
         actionData.value = list
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        DBWork.save(this._actionData.value!!)
     }
 
 }
