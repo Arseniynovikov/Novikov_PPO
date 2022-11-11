@@ -6,11 +6,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab2.R
 import com.example.lab2.model.Action
+import com.example.lab2.ui.workouts.WorkOutFragment
+import java.lang.reflect.Array.newInstance
 
-class TimersAdapter(private val list: MutableList<Action>, ) :
+class TimersAdapter(private val list: List<Action>) :
     RecyclerView.Adapter<TimersAdapter.TimerViewHolder>() {
 
 
@@ -44,7 +47,6 @@ class TimersAdapter(private val list: MutableList<Action>, ) :
                     timeEdit.setText(action.time.toString())
 
                 }
-
             }
 
         }

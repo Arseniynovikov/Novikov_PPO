@@ -1,5 +1,6 @@
 package com.example.lab2.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.lab2.R
 import com.example.lab2.model.Workout
 
-class WorkOutAdapter(private val list: MutableList<Workout>, ) :
+class WorkOutAdapter(private var list: List<Workout>, ) :
     RecyclerView.Adapter<WorkOutAdapter.WorkOutHolder>() {
 
 
@@ -29,8 +30,8 @@ class WorkOutAdapter(private val list: MutableList<Workout>, ) :
 
         fun bind(workout: Workout) {
             nameTextView.text = workout.name
-            timeTextView.text = workout.fullTime.toString()
-            countTextView.text = workout.action.size.toString()
+//            timeTextView.text = workout.fullTime.toString()
+//            countTextView.text = workout.action.size.toString()
             complexityTextView.text = "5"
         }
 
@@ -49,6 +50,12 @@ class WorkOutAdapter(private val list: MutableList<Workout>, ) :
 
     override fun getItemCount(): Int {
         return list.size
+    }
+
+
+    fun setList(workoutList: List<Workout>){
+        list = workoutList
+        notifyDataSetChanged()
     }
 
 
