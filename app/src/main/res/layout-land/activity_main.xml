@@ -5,25 +5,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/key_fragment"
-        android:name="com.example.lab1.KeyboardFragment"
-        android:layout_width="413dp"
-        android:layout_height="404dp"
+        android:name="com.example.lab1_1.KeyboardFragment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.457"
         tools:layout="@layout/fragment_keyboard" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/convert_fragment"
-        android:name="com.example.lab1.ConvertFragment"
-        android:layout_width="391dp"
-        android:layout_height="369dp"
+        android:name="com.example.lab1_1.ConvertFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="125dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/key_fragment"
-        app:layout_constraintHorizontal_bias="0.448"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/fragment_convert" />

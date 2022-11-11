@@ -1,24 +1,24 @@
-package com.example.lab1
+package com.example.lab1_1
 
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.view.View.OnContextClickListener
 import android.view.View.OnCreateContextMenuListener
 import android.widget.*
 import androidx.fragment.app.Fragment
-import com.example.lab1.R
+
 //import com.example.lab2.R
 
 
-class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnClickListener,
-OnCreateContextMenuListener{
+class ConvertFragment : Fragment(), AdapterView.OnItemSelectedListener, View.OnClickListener{
     private lateinit var spnUnit: Spinner
     private lateinit var spnCh1: Spinner
     private lateinit var spnCh2: Spinner
-    private lateinit var txtInput: EditText
-    private lateinit var txtOut: EditText
+    private lateinit var txtOut: MyEditText
     private lateinit var btnExchange: ImageButton
     private lateinit var btnInputCopy: ImageButton
     private lateinit var btnOutCopy: ImageButton
@@ -32,13 +32,16 @@ OnCreateContextMenuListener{
     private var spn2Number: Int? = null
     private lateinit var arrayUnitSelected: Array<String>
 
-    private var clipboardManager: ClipboardManager? = null
-    private lateinit var clipData: ClipData
+    ///////////////////////////////////////////////////// add this to companion object
+    companion object {
+        lateinit var txtInput: MyEditText
 
-
-    private var textFromInputEdit = StringBuilder("")
-    private var positionInInputEdit = 0
-
+        var clipboardManager: ClipboardManager? = null
+        lateinit var clipData: ClipData
+        var textFromInputEdit = StringBuilder("")
+        var positionInInputEdit = 0
+    }
+///////////////////////////////////////////////////////////
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -60,6 +63,9 @@ OnCreateContextMenuListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        clipboardManager =
+            activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
         spnUnit = view.findViewById(R.id.spnUnit)
         spnCh1 = view.findViewById(R.id.spnCh1)
         spnCh2 = view.findViewById(R.id.spnCh2)
@@ -67,7 +73,6 @@ OnCreateContextMenuListener{
         txtInput = view.findViewById(R.id.txtInput)
         txtInput.showSoftInputOnFocus = false
         registerForContextMenu(txtInput)
-        txtInput.setOnCreateContextMenuListener(this)
 
         txtOut = view.findViewById(R.id.txtOutput)
         txtOut.showSoftInputOnFocus = false
@@ -90,6 +95,9 @@ OnCreateContextMenuListener{
     fun setDescription(buttonIndex: Int) {
 
         positionInInputEdit = txtInput.selectionStart
+
+        ////////////////////////////////////set string from TextEdit to StringBuilder
+        textFromInputEdit = StringBuilder(txtInput.text.toString())
 
         when (buttonIndex) {
             0 -> {
@@ -159,7 +167,6 @@ OnCreateContextMenuListener{
         txtInput.setSelection(positionInInputEdit)
 
         txtOut.setText(converter.convert(spn1Selected, spn2Selected, txtInput.text.toString()))
-
 
     }
 
@@ -287,38 +294,11 @@ OnCreateContextMenuListener{
     }
 
     private fun copy(text: String) {
-        clipboardManager =
-            activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
         clipData = ClipData.newPlainText("text", text)
         clipboardManager!!.setPrimaryClip(clipData)
 
         Toast.makeText(context, "copied", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun paste() {
-        if (clipboardManager != null) {
-            positionInInputEdit = txtInput.selectionStart
-
-            val bufTxt = clipboardManager!!.primaryClip?.getItemAt(0)?.text
-
-            if (bufTxt.toString().contains(".") && textFromInputEdit.toString().contains(".")) {
-                Toast.makeText(
-                    context,
-                    "can't paste this because of second point",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-                return
-            }
-
-            textFromInputEdit.insert(positionInInputEdit, bufTxt)
-            txtInput.setText(textFromInputEdit.toString())
-
-            positionInInputEdit += bufTxt!!.length
-            txtInput.setSelection(positionInInputEdit)
-
-            txtOut.setText(converter.convert(spn1Selected, spn2Selected, textFromInputEdit.toString()))
-        } else Toast.makeText(context, "Clip board is empty", Toast.LENGTH_SHORT).show()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -334,27 +314,6 @@ OnCreateContextMenuListener{
         outState.putInt("position", positionInInputEdit)
 
     }
-
-    override fun onCreateContextMenu(
-        menu: ContextMenu,
-        v: View,
-        menuInfo: ContextMenu.ContextMenuInfo?
-    ) {
-        super.onCreateContextMenu(menu, v, menuInfo)
-        val inflater = MenuInflater(context)
-        inflater.inflate(R.menu.menu_edit, menu)
-    }
-
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-
-        if (item.itemId == R.id.paste) {
-            paste()
-        } else {
-            return false
-        }
-        return true
-    }
-
 
 }
 
