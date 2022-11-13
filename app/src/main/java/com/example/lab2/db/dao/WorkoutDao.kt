@@ -1,23 +1,31 @@
 package com.example.lab2.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.lab2.model.Action
-import com.example.lab2.model.Workout
+import com.example.lab2.model.ActionModel
+import com.example.lab2.model.WorkoutModel
 import com.example.lab2.model.WorkoutWithActions
 
 @Dao
 interface WorkoutDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertWorkout(workout: Workout)
+    @Insert
+    suspend fun insertWorkout(workout: WorkoutModel)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAction(action: Action)
+    @Insert
+    suspend fun insertAction(action: ActionModel)
 
-    @Transaction
-    @Query("SELECT * from workouts WHERE id = :workout_id")
-    suspend fun getWorkoutWithActions(workout_id: Int): List<WorkoutWithActions>
+    @Delete
+    suspend fun deleteWorkout(workout: WorkoutModel)
+
+    @Delete
+    suspend fun deleteAction(action: ActionModel)
+
+    @Update
+    suspend fun updateWorkout(workout: WorkoutModel)
+
+    @Update
+    suspend fun updateAction(action: ActionModel)
+
+    @Query("SELECT * from workouts")
+    fun getWorkoutWithActions(): LiveData<List<WorkoutWithActions>>
 }
-
-
-//    @Delete
-//    suspend fun deleteWorkout(workout: Workout)

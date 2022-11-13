@@ -6,14 +6,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab2.R
-import com.example.lab2.model.Action
-import com.example.lab2.ui.workouts.WorkOutFragment
-import java.lang.reflect.Array.newInstance
+import com.example.lab2.model.ActionModel
 
-class TimersAdapter(private val list: List<Action>) :
+class TimersAdapter(private val list: List<ActionModel>) :
     RecyclerView.Adapter<TimersAdapter.TimerViewHolder>() {
 
 
@@ -31,7 +28,7 @@ class TimersAdapter(private val list: List<Action>) :
 
         }
 
-        fun bind(action: Action) {
+        fun bind(action: ActionModel) {
             nameText.text = action.name
             timeEdit.setText(action.time.toString())
 

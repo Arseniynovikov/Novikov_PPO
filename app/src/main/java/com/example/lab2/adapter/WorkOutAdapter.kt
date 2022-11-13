@@ -1,6 +1,5 @@
 package com.example.lab2.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab2.R
 import com.example.lab2.model.Workout
+import com.example.lab2.model.WorkoutModel
 
 class WorkOutAdapter(private var list: List<Workout>, ) :
     RecyclerView.Adapter<WorkOutAdapter.WorkOutHolder>() {
