@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
+    app:startDestination="@id/basicKeyboardFragment">
+
+    <fragment
+        android:id="@+id/basicKeyboardFragment"
+        android:name="com.example.lr_3.basic_keyboard.BasicKeyboardFragment"
+        android:label="BasicKeyboardFragment">
+        <action
+            android:id="@+id/action_basicKeyboardFragment_to_secondKeyboardFragment"
+            app:destination="@id/secondKeyboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/secondKeyboardFragment"
+        android:name="com.example.lr_3.second_keyboard.SecondKeyboardFragment"
+        android:label="SecondKeyboardFragment">
+        <action
+            android:id="@+id/action_secondKeyboardFragment_to_basicKeyboardFragment"
+            app:destination="@id/basicKeyboardFragment" />
+    </fragment>
+</navigation>
